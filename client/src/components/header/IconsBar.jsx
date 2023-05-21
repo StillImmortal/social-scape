@@ -10,17 +10,7 @@ const IconBtn = ({icon}) => {
     <Link
       to='/'
     >
-      <IconButton
-        sx={{
-          color: 'rgba(0,0,0,.6)',
-          '&:hover': {
-            backgroundColor: '#cae5fa',
-          },
-          '&:active': {
-            backgroundColor: '#55b2fa',
-          },
-        }}
-      >
+      <IconButton>
         {icon}
       </IconButton>
     </Link>

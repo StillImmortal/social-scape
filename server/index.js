@@ -9,10 +9,10 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import helmet from 'helmet'
 
-import { router as authRoutes } from './routes/auth.js'
-import { router as userRoutes } from './routes/users.js'
+import { default as authRoutes } from './routes/auth.js'
+import { default as userRoutes } from './routes/users.js'
 import { register } from './controllers/auth.js'
-import { verifyToken } from './middleware/auth.js'
+import { verifyToken } from './middleware/Auth.js'
 
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url)
@@ -20,36 +20,39 @@ const __dirname = path.dirname(__filename)
 dotenv.config()
 const app = express()
 app.use(express.json())
-app.use(helmet())
-app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }))
-app.use(morgan('common'))
+// app.use(helmet())
+// app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }))
+// app.use(morgan('common'))
 app.use(bodyParser.json({ limit: '30mb', extended: true}))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true}))
 app.use(cors())
-app.use('/assets', express.static(path.join(__dirname, 'public/assets')))
+// app.use('/assets', express.static(path.join(__dirname, 'public/assets')))
 
 // FILE STORAGE
-const storage = multer.diskStorage({
-  destination: (req, res, cb) => {
-    cb(null, 'public/assets')
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname)
-  }
-})
+// const storage = multer.diskStorage({
+//   destination: (req, res, cb) => {
+//     cb(null, 'public/assets')
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname)
+//   }
+// })
 
-const upload = multer({ storage })
+// const upload = multer({ storage })
 
 // ROUTES
 app.use('/auth', authRoutes)
-app.use('/users', userRoutes)
+// app.use('/users', userRoutes)
+// app.use('/posts', postRoutes)
 
 // ROUTES WITH FILES
-app.post('/auth/register', upload.single('picture'), register)
+// app.post('/auth/register', upload.single('picture'), register)
+// app.post('/posts', verifyToken, upload.single('picture'), createPost)
 
 // MONGOOSE SETUP
 const PORT = process.env.PORT || 6001
-mongoose.connect(process.env.MONGO_URL, {
+
+mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {

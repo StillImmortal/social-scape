@@ -1,21 +1,27 @@
-import jwt from 'jsonwebtoken'
+import ApiError from '../exceptions/ApiError.js'
+import { validateAccessToken } from '../service/TokenService.js'
 
 export const verifyToken = async (req, res, next) => {
   try {
-    let token = req.header('Authorization')
-    
-    if (!token) {
-      return res.status(403).send('Access Denied!')
+    const authorizationHeader = req.headers.authorization
+    if (!authorizationHeader) {
+      return next(ApiError.UnauthorizedError())
     }
 
-    if (token.startsWith('Bearer ')) {
-      token = token.slice(7, token.length).trimLeft()
+    const accessToken = authorizationHeader.split(' ')[1]
+    if (!accessToken) {
+      return next(ApiError.UnauthorizedError())
     }
 
-    const verified = jwt.verify(token, process.env.JWT_SECRET)
-    req.user = verified;
+    const userData = validateAccessToken(accessToken)
+    if (!userData) {  
+      return next(ApiError.UnauthorizedError())
+    }
+
+    console.log(userData)
+    req.user = userData
     next()
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    return next(ApiError.UnauthorizedError())
   }
 }

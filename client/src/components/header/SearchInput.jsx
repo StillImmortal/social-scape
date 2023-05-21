@@ -51,19 +51,12 @@ const SearchInput = () => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        outline: isInputFocused ? '2px solid #55b2fa' : 'none',
+        backgroundColor: isInputFocused ? '#f7f7f7' : 'transparent',
       }}
     >
       <IconButton sx={{  
-        color: 'rgba(0,0,0,.6)', 
         height: '38px', 
         borderRadius: '12px',
-        '&:hover': {
-          backgroundColor: '#cae5fa',
-        },
-        '&:active': {
-          backgroundColor: '#55b2fa',
-        },
         "& .MuiTouchRipple-root .MuiTouchRipple-child": {
           borderRadius: "12px"
         }

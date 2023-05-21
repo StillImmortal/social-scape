@@ -1,5 +1,3 @@
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
 import { Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -7,6 +5,7 @@ import { logo } from "../assets";
 
 import SearchInput from "./header/SearchInput";
 import IconsBar from "./header/IconsBar";
+import ProfileIcon from "./header/ProfileIcon";
   
 const Header = () => {
   return (
@@ -24,8 +23,7 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-12">
           <IconsBar />
-          <div className="w-10 h-10 bg-red-100">
-          </div>
+          <ProfileIcon />
         </div>
       </div>
     </Paper>

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 
 import User from '../models/User.js'
 
-// REGISTER USER
+// SIGN UP
 const register = async (req, res) => {
   try {
     const {
@@ -40,7 +40,7 @@ const register = async (req, res) => {
   }
 }
 
-// LOGGING IN
+// SIGN IN
 const login = async (req, res) => {
   try {
     const { email, password } = req.body
@@ -60,8 +60,14 @@ const login = async (req, res) => {
   }
 }
 
+// SIGN OUT
+const logout = async (req, res) => {
+
+}
+
 export {
   register,
-  login
+  login,
+  logout,
 }
 
