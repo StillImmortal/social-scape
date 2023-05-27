@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema, model } from 'mongoose'
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
   firstName: {
     type: String,
     required: true,
@@ -25,21 +25,42 @@ const UserSchema = new mongoose.Schema({
     min: 5,
     max: 32,
   },
-  picturePath: {
+  isActivated: {
+    type: Boolean,
+    default: false,
+  },
+  activationLink: {
     type: String,
-    default: '',
+    unique: true,
+    required: true,
+  },
+  picturePath: {
+      type: String,
+      default: '',
   },
   friends: {
     type: Array,
     default: [],
   },
-  location: String,
-  occupation: String,
-  viewedProfile: Number,
-  impressions: Number,
+  location: {
+    type: String,
+    default: '',
+  },
+    occupation: {
+      type: String,
+      default: '',
+  },
+  viewedProfile: {
+    type: Number,
+    default: 0,
+  },
+  impressions: {
+    type: Number,
+    default: 0,
+  },
 }, { timestamps: true })
 
-const User = mongoose.models.User || mongoose.model("User", UserSchema)
+const User = mongoose.models.User || model("User", UserSchema)
 
 export default User
 

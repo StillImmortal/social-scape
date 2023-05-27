@@ -1,5 +1,5 @@
 import { IconButton } from "@mui/material"
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { ArrowDropDown } from '@mui/icons-material';
 
 const ProfileIcon = () => {
   return (
@@ -14,7 +14,7 @@ const ProfileIcon = () => {
         <div className="w-12 h-12 rounded-full bg-red-100">
 
         </div>
-        <ArrowDropDownIcon />
+        <ArrowDropDown />
       </IconButton>
     </div>
   )

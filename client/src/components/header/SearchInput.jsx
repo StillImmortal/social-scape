@@ -1,30 +1,29 @@
-import { useState} from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
-import { IconButton } from '@mui/material';
+import { useState } from "react"
+import { useTheme } from "@emotion/react"
+import { 
+  styled, 
+  InputBase,
+  IconButton,
+  Box
+} from "@mui/material"
+import { Search } from "@mui/icons-material"
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: '12px',
-  border: '1px solid #72c0fc',
-  transition: theme.transitions.create('border'),
-  '&:hover': {
-    border: '1px solid #55b2fa'
-  },
-  marginLeft: 0,
-  width: '100%',
-  height: '40px',
+
+const SearchWrapper = styled('div')(({theme}) => ({
+  position: "relative",
+  width: "100%",
+  height: "40px",
+  border: `1px solid ${theme.palette.primary.main}`,
+  borderRadius: "8px",
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(1),
     width: 'auto',
   },
-}));
+}))
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+const SearchInputBase = styled(InputBase)(({theme}) => ({
   '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
+    padding: theme.spacing(1, 1, 1, 1),
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
@@ -34,9 +33,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       },
     },
   },
-}));
+}))
+
 
 const SearchInput = () => {
+  const theme = useTheme()
   const [isInputFocused, setIsInputFocused] = useState(false);
 
   const handleInputFocus = () => {
@@ -46,33 +47,30 @@ const SearchInput = () => {
   const handleInputBlur = () => {
     setIsInputFocused(false);
   };
+
   return (
-    <Search
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: isInputFocused ? '#f7f7f7' : 'transparent',
-      }}
+    <SearchWrapper
+      className="hidden md:flex justify-center items-center"
+      sx={{ backgroundColor: `${isInputFocused ? theme.palette.background.default : "ihnerit"}`}}
     >
-      <IconButton sx={{  
-        height: '38px', 
-        borderRadius: '12px',
-        "& .MuiTouchRipple-root .MuiTouchRipple-child": {
-          borderRadius: "12px"
-        }
-      }}>
-          <SearchIcon />
-      </IconButton>
-      <StyledInputBase
+      <IconButton
         sx={{
-          marginLeft: '4px',
+          height: '100%',
+          borderRadius: "8px",
+          "& .MuiTouchRipple-root .MuiTouchRipple-child": {
+            borderRadius: "8px"
+          },
         }}
+      >
+        <Search />
+      </IconButton>
+      <SearchInputBase
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
-        placeholder="Search…"
+        placeholder="Поиск…"
         inputProps={{ 'aria-label': 'search' }}
       />
-    </Search>
+    </SearchWrapper>
   )
 }
 

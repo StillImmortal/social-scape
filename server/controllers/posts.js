@@ -1,9 +1,11 @@
-import Post from "../models/Model.js";
+import PostDto from "../dto/Post.js";
+import Post from "../models/Post.js";
 import User from "../models/User.js";
 
-// CREATE
+const formattedPosts = (post => new PostDto(post))
 
-export const createPost = async (req, res) => {
+// CREATE
+export const createPost = async (req, res, next) => {
   try {
     const { userId, description, picturePath } = req.body
     const user = await User.findById(userId)
@@ -20,35 +22,38 @@ export const createPost = async (req, res) => {
     })
     await newPost.save()
 
-    const post = await Post.find()
-    res.status(201).json(post)
+    const posts = await Post.find()
+    const postsData = posts.map(formattedPosts)
+    res.status(201).json(postsData)
   } catch (error) {
-    res.status(409).json({ message: error.message })
+    next(error)
   }
 }
 
 // READ
-export const getFeedPosts = async (req, res) => {
+export const getFeedPosts = async (req, res, next) => {
   try {
     const post = await Post.find()
-    res.status(201).json(post)
+    const postData = new PostDto(post)
+    res.status(201).json(postData)
   } catch (error) {
-    res.status(404).json({ message: err.message })
+    next(error)
   }
 }
 
-export const getUserPosts = async (req, res) => {
+export const getUserPosts = async (req, res, next) => {
   try {
     const { userId } = req.params
     const posts = await Post.find({ userId })
-    res.status(201).json(posts)
+    const postsData = posts.map(formattedPosts)
+    res.status(201).json(postsData)
   } catch (error) {
-    res.status(404).json({ message: err.message })
+    next(error)
   }
 }
 
 // UPDATE
-export const likePost = async (req, res) => {
+export const likePost = async (req, res, next) => {
   try {
     const { id } = req.params
     const { userId } = req.body
@@ -61,10 +66,12 @@ export const likePost = async (req, res) => {
     }
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      { likes: post.likes }
+      { likes: post.likes },
+      { new: true }
     )
-    res.status(201).json()
+    const updatedPostData = new PostDto(updatedPost)
+    res.status(201).json(updatedPostData)
   } catch (error) {
-    res.status(404).json({ message: err.message })
+    next(error)
   }
 }

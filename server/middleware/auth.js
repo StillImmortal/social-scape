@@ -1,5 +1,5 @@
 import ApiError from '../exceptions/ApiError.js'
-import { validateAccessToken } from '../service/TokenService.js'
+import TokenService from '../service/TokenService.js'
 
 export const verifyToken = async (req, res, next) => {
   try {
@@ -13,12 +13,11 @@ export const verifyToken = async (req, res, next) => {
       return next(ApiError.UnauthorizedError())
     }
 
-    const userData = validateAccessToken(accessToken)
+    const userData = TokenService.validateAccessToken(accessToken)
     if (!userData) {  
       return next(ApiError.UnauthorizedError())
     }
 
-    console.log(userData)
     req.user = userData
     next()
   } catch (error) {

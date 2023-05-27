@@ -1,30 +1,34 @@
 import User from "../models/User.js";
+import UserDto from "../dto/User.js";
+
+const formattedFriends = ({_id, firstName, lastName, occupation, location, picturePath}) => ({_id, firstName, lastName, occupation, location, picturePath})
 
 // READ
-export const getUser = async (req, res) => {
+export const getUser = async (req, res, next) => {
   try {
     const { id } = req.params
     const user = await User.findById(id)
-    res.status(200).json(user)
+    const userData = new UserDto(user)
+    res.status(200).json(userData)
   } catch (error) {
-    res.status(404).json({ message: error.message})
+    next(error)
   }
 }
 
-export const getUserFriends = async (req, res) => {
+export const getUserFriends = async (req, res, next) => {
   try {
     const { id } = req.params
     const user = await User.findById(id) 
     const friends = await Promise.all(user.friends.map(id => User.findById(id)))
-    const formattedFriends = friends.map(({ _id, firstName, lastName, occupation, location, picturePath }) => ({ _id, firstName, lastName, occupation, location, picturePath}))
-    res.status(200).json(formattedFriends)
+    const friendsData = friends.map(formattedFriends)
+    res.status(200).json(friendsData)
   } catch (error) {
-    res.status(404).json({ message: error.message})
+    next(error)
   }
 }
 
 // UPDATE
-export const addRemoveFriend = async (req, res) => {
+export const addRemoveFriend = async (req, res, next) => {
   try {
     const  { id, friendId } = req.params
     const user = await User.findById(id)
@@ -45,10 +49,10 @@ export const addRemoveFriend = async (req, res) => {
       user.friends.map(id => User.findById(id))
     )
 
-    const formattedFriends = friends.map(({ _id, firstName, lastName, occupation, location, picturePath }) => ({ _id, firstName, lastName, occupation, location, picturePath}))
+    const friendsData = friends.map(formattedFriends)
 
-    res.status(200).json(formattedFriends)
+    res.status(200).json(friendsData)
   } catch (error) {
-    res.status(404).json({ message: error.message})
+    next(error)
   }
 }

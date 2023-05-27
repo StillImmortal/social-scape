@@ -1,37 +1,77 @@
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import ChatIcon from '@mui/icons-material/Chat';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import HelpIcon from '@mui/icons-material/Help';
-import { IconButton } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { IconButton } from "@mui/material"
+import {
+  Search,
+  Message,
+  DarkMode,
+  LightMode,
+  Notifications,
+  Help
+} from "@mui/icons-material"
 
-const IconBtn = ({icon}) => {
-  return (
-    <Link
-      to='/'
-    >
-      <IconButton>
-        {icon}
-      </IconButton>
-    </Link>
-  )
-}
+import { setMode } from "../../state"
 
-const IconsBar = () => {
+const IconsBar = ({ isMobile }) => {
+  const dispatch = useDispatch()
+  const mode = useSelector((state) => state.mode)
+  const navigate = useNavigate()
+
   return (
     <nav className='flex items-center gap-2'>
-      <IconBtn
-        icon={<DarkModeIcon />}
-      />
-      <IconBtn
-        icon={<ChatIcon />}
-      />
-      <IconBtn
-        icon={<NotificationsIcon />}
-      />
-      <IconBtn
-        icon={<HelpIcon />}
-      />
+      {isMobile ? (
+        <>
+          <IconButton
+            onClick={() => dispatch(setMode())}
+          >
+            {mode === "light" ? (<DarkMode />) : (<LightMode />)}
+          </IconButton>
+
+          <IconButton
+            onClick={() => navigate("/messages")}
+          >
+            <Message />
+          </IconButton>
+
+          <IconButton
+            onClick={() => navigate("/help")}
+          >
+            <Help />
+          </IconButton>
+
+          <IconButton
+            onClick={() => navigate("/notifications")}
+          >
+            <Notifications />
+          </IconButton>
+        </>
+      )
+      : (
+        <>
+          <IconButton
+            onClick={() => navigate("/search")}
+          >
+            <Search 
+              sx={{
+                width: "28px",
+                height: "28px"
+              }}
+            />
+          </IconButton>
+          
+          <IconButton
+            onClick={() => navigate("/notifications")}
+          >
+            <Notifications 
+              sx={{
+                width: "28px",
+                height: "28px"
+              }}
+            />
+          </IconButton>
+        </>
+      )
+    }
     </nav>
   )
 }

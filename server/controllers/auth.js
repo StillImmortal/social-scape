@@ -1,10 +1,7 @@
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-
-import User from '../models/User.js'
+import UserService from '../service/UserService.js'
 
 // SIGN UP
-const register = async (req, res) => {
+export const signUp = async (req, res, next) => {
   try {
     const {
       firstName,
@@ -12,62 +9,65 @@ const register = async (req, res) => {
       email,
       password, 
       picturePath,
-      friends,
       location,
       occupation,
     } = req.body
 
-    const salt = await bcrypt.genSalt()
-    const passwordHash = await bcrypt.hash(password, salt)
+    console.log(req.body)
 
-    const newUser = new User({
-      firstName,
-      lastName,
-      email,
-      password: passwordHash,
-      picturePath,
-      friends,
-      location,
-      occupation,
-      viewedProfile: Math.floor(Math.random() * 10000),
-      impressions: Math.floor(Math.random() * 30000),
-    })
-
-    const savedUser = await newUser.save()
-    res.status(201).json(savedUser)
+    const userData = await UserService.signUp(firstName, lastName, email, password, picturePath, location, occupation)
+    res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+    return res.json(userData)
   } catch (error) {
-    res.status(500).json({ error: error.message})
+    next(error)
   }
 }
 
+// ACTIVATION
+export const activation = async (req, res, next) => {
+  try {
+    const activationLink = req.params.link
+    await UserService.activate(activationLink)
+    return res.redirect(process.env.CLIENT_URL)
+  } catch (error) {
+    next(error)
+  }
+}
+
+
 // SIGN IN
-const login = async (req, res) => {
+export const signIn = async (req, res, next) => {
   try {
     const { email, password } = req.body
-    const user = await User.findOne({ email: email })
-
-    if (!user) return res.status(400).json({ message: "User does not exist."})
-
-    const isMatch = await bcrypt.compare(password, user.password)
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials."})
-
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-    delete user.password
-
-    res.status(201).json({ token, user })
+    const userData = await UserService.login(email, password)
+    res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+    return res.json(userData)
   } catch (error) {
-    res.status(500).json({ error: error.message})
+    next(error)
   }
 }
 
 // SIGN OUT
-const logout = async (req, res) => {
-
+export const signOut = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.cookies
+    const token = await UserService.signOut(refreshToken)
+    res.clearCookie('refreshToken')
+    res.json(token)
+  } catch (error) {
+    next(error)
+  }
 }
 
-export {
-  register,
-  login,
-  logout,
+// REFRESH TOKEN
+export const refresh = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.cookies
+    const userData = await UserService.refresh(refreshToken)
+    res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+    return res.json(userData)
+  } catch (error) {
+    next(error)
+  }
 }
 

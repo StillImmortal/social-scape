@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import mongoose, { Schema, model } from 'mongoose'
 
 const TokenSchema = new Schema({
   user: {
@@ -11,6 +11,6 @@ const TokenSchema = new Schema({
   },
 })
 
-const Token = models.Token || model('Token', TokenSchema)
+const Token = mongoose.models.Token || model('Token', TokenSchema)
 
 export default Token
