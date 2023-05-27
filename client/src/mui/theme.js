@@ -12,7 +12,7 @@ export const colorTokens = {
     600: "#4D4D4D",
     700: "#333333",
     800: "#1A1A1A",
-    900: "#0a0011",
+    900: "#0A0A0A",
     1000: "#000000",
   },
   primary: {
@@ -59,7 +59,7 @@ export const themeSettings = (mode) => {
         primary: {
           dark: colorTokens.primary[700],
           main: colorTokens.primary[500],
-          light: colorTokens.primary[200],
+          light: colorTokens.primary[100],
         },
         neutral: {
           dark: colorTokens.grey[700],
@@ -86,10 +86,10 @@ export const themeSettings = (mode) => {
             ...(mode === "dark" 
             ? {
               '&:hover' : {
-                backgroundColor: colorTokens.primary[600]
+                backgroundColor: colorTokens.primary[700]
               },
               '&:active' : {
-                backgroundColor: colorTokens.primary[500]
+                backgroundColor: colorTokens.primary[600]
               },
             }
             : {

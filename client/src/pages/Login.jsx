@@ -25,7 +25,7 @@ const Login = () => {
     <Box
       className="flex-center flex-col gap-4"
     >
-      <h1 className="auth-text-gradient text-4xl md:text-5xl 2xl:text-6xl font-extrabold whitespace-nowrap">
+      <h1 className="auth-text-gradient text-4xl md:text-5xl 2xl:text-6xl 3xl:text-7xl  font-extrabold whitespace-nowrap">
         Social Scape
       </h1>
       <p className="auth-subText lg:text-lg font-semibold text-center max-w-[95%]">
@@ -37,15 +37,15 @@ const Login = () => {
 
   return (
     <Box 
-      className={`relative overflow-y-auto overflow-x-hidden  ${isNonMobileScreens ? "w-screen h-screen flex-center" : "overflow-y-scroll overflow-x-hidden min-h-screen h-full"}`}
+      className={`relative overflow-x-hidden  ${isNonMobileScreens ? "w-screen h-screen flex-center" : "min-h-screen h-full"}`}
     > 
       <BackgroundGradient bgHeight={"h-full"} blurHeight={"h-full"} />
       <Box
-        className="max-w-7xl w-full h-full flex-center z-50 px-4 py-6 gap-3"
+        className="max-w-7xl w-full h-full flex-between z-50 px-4 py-6"
       >
         {isNonMobileScreens && 
           <Box
-            className="w-[50%] h-full flex flex-col items-center justify-evenly"
+            className="w-[48%] h-full flex flex-col items-center justify-center gap-12"
           >
             <AuthPreview />
             <img 
@@ -56,7 +56,7 @@ const Login = () => {
         }
 
         <Box
-        className={`${isNonMobileScreens ? "w-[50%] justify-center" : "w-full pb-4"} h-full z-50 flex items-center flex-col gap-8 pt-16`}
+        className={`${isNonMobileScreens ? "w-[48%] justify-center" : "w-full pb-4"} h-full z-50 flex items-center flex-col gap-12 pt-8`}
         >
           {!isNonMobileScreens && <AuthPreview />}
           <LoginForm />

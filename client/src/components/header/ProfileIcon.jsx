@@ -1,7 +1,12 @@
+import { useSelector } from "react-redux";
 import { IconButton } from "@mui/material"
 import { ArrowDropDown } from '@mui/icons-material';
 
+import UserImage from "../UserImage";
+
 const ProfileIcon = () => {
+  const { picturePath } = useSelector((state) => state.user)
+
   return (
     <div className=''>
       <IconButton
@@ -11,9 +16,7 @@ const ProfileIcon = () => {
           borderRadius: '0px',
         }}
       >
-        <div className="w-12 h-12 rounded-full bg-red-100">
-
-        </div>
+        <UserImage size="48px" image={picturePath} />
         <ArrowDropDown />
       </IconButton>
     </div>

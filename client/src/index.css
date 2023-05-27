@@ -22,7 +22,7 @@ body {
 }
 
 .auth-bg-gradient-dark {
-  background-image: linear-gradient(45deg, transparent, #6b2fcb2a, #3876fc22, transparent, transparent, transparent, transparent, #413eea22, #6b1ccb1c, transparent );
+  background-image: linear-gradient(45deg, transparent, #00d0ff1f, #006aff1f, transparent, transparent, transparent, transparent, #00d0ff1f, #006aff1f, transparent );
   background-repeat: repeat;
 }
 

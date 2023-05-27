@@ -207,25 +207,19 @@ const LoginForm = () => {
                         className="p-4 hover:cursor-pointer"
                         border={`2px dashed ${palette.primary.main}`}
                       >
-                        <input 
-                          {...getInputProps()}
-                        />
+                        <input {...getInputProps()} />
                         {!values.picture ? (
-                          <Typography
-                            sx={{ color: palette.neutral.main }}
-                          >
-                            Добавить фото
+                          <Typography color={palette.neutral.main}>
+                            Добавить фотографию
                           </Typography>
                         )
                         : (
-                          <div
-                            className="flex-between"
-                          >
-                            <p>
-                              {values.picture.name}
-                            </p>
-                            <EditOutlined />
-                          </div>
+                          <Box className="flex-between">
+                          <Typography>
+                            {values.picture.name}
+                          </Typography>
+                          <EditOutlined />
+                        </Box>
                         )}
                       </Box>
                     )}
@@ -262,9 +256,7 @@ const LoginForm = () => {
               InputLabelProps={{ shrink: true }}
             />  
           </Box>
-          <Box 
-            className="flex flex-col items-center gap-2"
-          >
+          <Box className="flex flex-col items-center gap-2">
             <Button
               type="submit"
               className="w-full mx-8 p-4"

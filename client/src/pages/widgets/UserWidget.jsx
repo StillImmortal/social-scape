@@ -96,14 +96,16 @@ const UserWidget = ({ userId, picturePath }) => {
 
       <Box className="py-4">
         <Box className="flex items-center gap-4 mb-2">
-          <LocationOnOutlined style={{ fontSize: "32px" }} color={main} />
+          <LocationOnOutlined style={{ fontSize: "30px" }} color={main} />
           <Typography color={medium}>{location}</Typography>
         </Box>
         <Box className="flex items-center gap-4 mb-2">
-          <WorkOutlineOutlined style={{ fontSize: "32px" }} color={main} />
+          <WorkOutlineOutlined style={{ fontSize: "30px" }} color={main} />
           <Typography color={medium}>{occupation}</Typography>
         </Box>
       </Box>
+
+      <Divider />
         
       <Box className="py-4">
         <Box className="flex-between mb-2">
@@ -116,7 +118,9 @@ const UserWidget = ({ userId, picturePath }) => {
         </Box>
       </Box>
 
-      <Box>
+      <Divider />
+
+      <Box className="py-4">
         <Typography color={main} fontWeight={500} mb="1rem">
           Мои социальные сети
         </Typography>
